@@ -1,5 +1,5 @@
-name: rag_chatbot_app
-description: "AI-powered website chatbot using RAG"
+name: deepinsight_ai
+description: "DeepInsight AI - Modern On-Device RAG Chatbot for Semantic Website Research"
 publish_to: 'none'
 version: 1.0.0+1
 

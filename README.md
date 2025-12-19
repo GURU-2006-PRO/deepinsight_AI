@@ -1,94 +1,118 @@
-# 🤖 Advanced RAG Chatbot
+# 🤖 DeepInsight AI - Modern On-Device RAG Chatbot
 
-A production-ready Flutter application that allows you to chat with any website using **Retrieval-Augmented Generation (RAG)**. Powered by **Groq (Llama 3.3 70B)** and featuring autonomous fact-verification to eliminate hallucinations.
+![DeepInsight AI Banner](https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=2000)
 
-![Flutter](https://img.shields.io/badge/Flutter-3.x-blue?logo=flutter)
-![Llama](https://img.shields.io/badge/Llama-3.3--70B-green?logo=meta)
-![Groq](https://img.shields.io/badge/Inference-Groq--LPU-orange)
-![License](https://img.shields.io/badge/license-MIT-blue)
+**DeepInsight AI** is a premium, high-fidelity RAG (Retrieval-Augmented Generation) chatbot built with Flutter. It allows users to transform any website into a personal AI research assistant. Unlike traditional chatbots, DeepInsight AI crawls website content, indexes it semantically using **on-device vector storage**, and provides grounded, verifiable answers using **Gemini 2.0 Flash**.
 
-## ✨ Features
+---
 
-### 🎯 Core Capabilities
-- **Smart Website Crawling**: Extracts clean content from any website using **Jina AI Reader** (Free & Unlimited).
-- **Parallel Data Ingestion**: Concurrently processes multiple pages (3-batch lanes) with smart rate-limiting.
-- **Llama 3.3 70B**: Lightning-fast inference via Groq Cloud (500+ tokens/sec).
-- **Local TF-IDF Vector Search**: High-performance semantic search running entirely on-device via **Hive**.
-- **Offline-First Storage**: All crawled content and chat history are saved locally for privacy and speed.
+## ✨ Key Features
 
-### 🛡️ Trust & Verification System (Advanced RAG)
-Unlike standard chatbots, this app includes a built-in "Truth Engine":
-1. **Query Expansion**: Turns 1 user question into 3 search variations to find better context.
-2. **Fact Extraction**: Automatically identifies specific claims in the AI's response.
-3. **Autonomous Verification**: Cross-references AI claims against the original website text in real-time.
-4. **Confidence Scoring**: Displays a trust percentage and hallucination risk for every answer.
-5. **Clickable Sources**: Direct URL redirection to the exact page used for the answer.
+### 🔍 Smart Website Crawling
+- **Automated Research**: Enter a URL and the app automatically crawls and extracts relevant content using the high-performance **Jina AI Reader**.
+- **Memory-Safe Processing**: Optimized on-the-fly content extraction that scales with website size.
+
+### 🧠 Fully Local RAG Pipeline
+- **Semantic Indexing**: Fragments content into high-fidelity chunks (800 chars) with 150-char overlap for context preservation.
+- **On-Device Vector Search**: Powered by **Hive**, implementing local **Cosine Similarity** for lighting-fast semantic retrieval.
+- **Gemini Embeddings**: Uses `text-embedding-004` to generate state-of-the-art vector representations of website data.
+
+### 💬 Intelligent Chat Experience
+- **Grounded Reasoning**: Uses **Gemini 2.0 Flash** with strict system instructions to ensure answers are based *exclusively* on retrieved context.
+- **Verifiable Citations**: Every claim is backed by a **clickable source link** that redirects you directly to the original webpage.
+- **Web Search Fallback**: If the information is not found in the indexed website, a beautiful "Web Search" card appears, allowing Gemini to search the broader internet for answers.
+
+### 🎨 Premium Visual Aesthetic
+- **Modern UI/UX**: A stunning dark-themed interface with **Glassmorphism** effects and smooth **Lottie/Flutter Animate** transitions.
+- **Proactive Intelligence**: Automatically generates an executive summary and key insights as soon as a website is indexed.
+- **Responsive Design**: Works seamlessly across mobile platforms with a premium, polished feel.
+
+---
+
+## 🛠️ Technology Stack
+
+| Component | Technology |
+| :--- | :--- |
+| **Framework** | [Flutter](https://flutter.dev/) |
+| **Language** | [Dart](https://dart.dev/) |
+| **AI Models** | [Google Gemini 2.0 Flash](https://deepmind.google/technologies/gemini/) |
+| **Embeddings** | [text-embedding-004](https://ai.google.dev/models/gemini) |
+| **Local Database** | [Hive](https://pub.dev/packages/hive) (Custom Vector Implementation) |
+| **State Management** | [Provider](https://pub.dev/packages/provider) |
+| **Crawling** | [Jina AI Reader](https://r.jina.ai/) |
+| **Animations** | [Flutter Animate](https://pub.dev/packages/flutter_animate) & [Shimmer](https://pub.dev/packages/shimmer) |
 
 ---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-- [Flutter SDK](https://docs.flutter.dev/get-started/install) 3.0+
-- [Groq API Key](https://console.groq.com/keys) (Free tier works great!)
+- Flutter SDK (latest stable version)
+- A Google AI Studio API Key ([Get it here](https://aistudio.google.com/app/apikey))
 
 ### Installation
 
-1. **Clone the repository**:
-   ```bash
-   git clone <your-repo-url>
-   cd rag_chatbot_app
-   ```
+1.  **Clone the repository**
+    ```bash
+    git clone https://github.com/GURU-2006-PRO/deepinsight_AI.git
+    cd deepinsight_AI
+    ```
 
-2. **Configure Environment Variables**:
-   Create a `.env` file in the root directory:
-   ```env
-   GROQ_API_KEY=gsk_your_actual_key_here
-   ```
+2.  **Install dependencies**
+    ```bash
+    flutter pub get
+    ```
 
-3. **Install Dependencies**:
-   ```bash
-   flutter pub get
-   ```
+3.  **Configure Environment Variables**
+    Create a `.env` file in the root directory:
+    ```env
+    GEMINI_API_KEY=your_gemini_api_key_here
+    ```
 
-4. **Run the App**:
-   ```bash
-   flutter run
-   ```
-
----
-
-## 🛠️ Technical Architecture
-
-### Tech Stack
-| Component | Technology | Role |
-| :--- | :--- | :--- |
-| **Frontend** | Flutter | Cross-platform UI & State Management (Provider) |
-| **LLM** | Llama 3.3 70B | Answer generation via Groq LPU |
-| **Scraping** | Jina AI Reader | Clean Markdown extraction |
-| **Vector Search** | Custom TF-IDF | Local indexing and semantic similarity |
-| **Local DB** | Hive | High-speed NoSQL key-value storage |
-
-### The Pipeline
-1. **Crawl**: Jina AI extracts Markdown -> Links discovered -> Concurrent workers scrape up to 50 pages.
-2. **Index**: Content is chunked (500 chars) -> TF-IDF weights calculated -> Stored in Hive.
-3. **Retrieve**: Multi-query search -> Vector similarity matching -> Top context retrieved.
-4. **Generate**: System prompt instruction -> Answer generation -> Verification -> UI display.
+4.  **Run the application**
+    ```bash
+    flutter run
+    ```
 
 ---
 
-## 📈 Performance Optimization
-- **Concurrent Batching**: We pull 3 pages at a once with a 500ms stagger to maximize speed without being blocked.
-- **Exponential Backoff**: Automatic "Smart Retry" if the server issues a Rate Limit (429) warning.
-- **Indeterminate Progress**: Real-time visual feedback of pages found and indexing status.
+## 📂 Project Structure
+
+```text
+lib/
+├── models/         # Hive data models & RAG response objects
+├── providers/      # ChatProvider (State Management & Logic)
+├── services/       
+│   ├── gemini_service.dart   # Gemini API integration
+│   ├── vector_service.dart   # Local Cosine Similarity & Indexing
+│   ├── rag_service.dart      # Orchestrates Retrieval & Generation
+│   └── jina_service.dart     # Web crawling & markdown extraction
+├── widgets/        # Premium UI components (MessageBubble, UrlInput, etc.)
+└── main.dart       # App entry point & initialization
+```
+
+---
+
+## 🛡️ Security & Privacy
+- **Privacy First**: All website content is indexed locally on your device.
+- **No Mid-tier Servers**: The app communicates directly with Gemini API using your personal key.
 
 ---
 
 ## 🤝 Contributing
-Contributions are welcome! If you find a bug or have a feature request, please open an issue or submit a pull request.
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-## 📄 License
-This project is licensed under the MIT License - see the LICENSE file for details.
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ---
-*Built with ❤️ for the AI Community.*
+
+## 📜 License
+Distributed under the MIT License. See `LICENSE` for more information.
+
+---
+
+**Built with ❤️ for the Future of Semantic Search.**
