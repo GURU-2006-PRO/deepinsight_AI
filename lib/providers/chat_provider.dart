@@ -84,7 +84,7 @@ class ChatProvider with ChangeNotifier {
   List<String> get suggestions => _suggestions;
   RagService get ragService => _rag;
 
-  Future<void> crawlWebsite(String url, {int maxPages = 20}) async {
+  Future<void> crawlWebsite(String url, {int maxPages = 20, String? researchGoal}) async {
     _error = null;
     _crawlProgress = 0;
     _crawlCount = 0;
@@ -106,6 +106,21 @@ class ChatProvider with ChangeNotifier {
         onPageFound: (jinaPage) async {
           if (jinaPage.markdown == null || jinaPage.markdown!.trim().isEmpty) return;
           
+          // Smart Capture: Check relevance if researchGoal is provided
+          if (researchGoal != null && researchGoal.isNotEmpty) {
+            print('🧠 [SMART] Checking relevance for: ${jinaPage.title}');
+            final isRelevant = await _rag.geminiService.checkRelevance(
+              content: jinaPage.markdown!,
+              goal: researchGoal,
+            );
+            
+            if (!isRelevant) {
+              print('🗑️ [SMART] Skipping irrelevant page: ${jinaPage.title}');
+              return;
+            }
+            print('✅ [SMART] Relevant page found: ${jinaPage.title}');
+          }
+
           final pageModel = PageModel(
             id: const Uuid().v4(),
             websiteId: websiteId,

@@ -129,4 +129,28 @@ Your detailed response:''';
       return 'I encountered an error while trying to answer your question. Error: ${e.toString()}';
     }
   }
+
+  /// Check if content is relevant to a research goal (for Smart Capture)
+  Future<bool> checkRelevance({required String content, required String goal}) async {
+    final prompt = '''### TASK
+Evaluate if the following website content is relevant to the Research Goal.
+
+### RESEARCH GOAL:
+$goal
+
+### CONTENT PREVIEW:
+${content.length > 3000 ? content.substring(0, 3000) : content}
+
+### OUTPUT REQUIREMENT
+Return only 'YES' or 'NO'. No explanation. If the content is broadly related or helpful for the goal, return 'YES'. If it's completely irrelevant (legal pages, login screens, unrelated ads), return 'NO'.''';
+
+    try {
+      final response = await _model.generateContent([Content.text(prompt)]);
+      final text = response.text?.trim().toUpperCase() ?? '';
+      return text.contains('YES');
+    } catch (e) {
+      print('⚠️ Relevance check failed: $e');
+      return true; // Default to true to be safe
+    }
+  }
 }

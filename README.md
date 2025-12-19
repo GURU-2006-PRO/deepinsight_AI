@@ -9,7 +9,9 @@
 ## ✨ Key Features
 
 ### 🔍 Smart Website Crawling
-- **Automated Research**: Enter a URL and the app automatically crawls and extracts relevant content using the high-performance **Jina AI Reader**.
+- **Dual Research Modes**: Choose between **Deep Research** for comprehensive scale or **Smart Capture** for goal-oriented precision.
+- **Custom Scale Control**: A user-accessible "Max Pages" slider (1 to 50 pages) allows you to control the depth of the crawl based on your needs.
+- **AI-Driven Relevance Filtering**: In **Smart Capture** mode, Gemini 2.0 analyzes every page during the crawl, only indexing content that directly aligns with your specific "Research Goal" prompt.
 - **Memory-Safe Processing**: Optimized on-the-fly content extraction that scales with website size.
 
 ### 🧠 Fully Local RAG Pipeline
